@@ -39,6 +39,8 @@ INSERT INTO libreria.autor(NombreAutor, ApellidoAutor, Biografia, AnnoNacimiento
 
 INSERT INTO libreria.autor(NombreAutor, ApellidoAutor, Biografia, AnnoNacimiento, AnnoFallecimiento, Ciudad) VALUES ('H.P', 'LOVECRAFT', 'H.P. Lovecraft es un escritor estadounidense. autor de relatos y novelas de terror y ciencia ficción. Se le considera un gran innovador del cuento de terror, al que aportó una mitología propia —los Mitos de Cthulhu—, desarrollada en colaboración con otros autores, actualmente en vigencia. Su obra constituye un clásico del horror cósmico, una línea narrativa que se aparta de las tradicionales historias de terror sobrenatural —satanismo, fantasmas—, incluyendo elementos de ciencia ficción como, por ejemplo, razas alienígenas, viajes en el tiempo o existencia de otras dimensiones.', '1890-08-20', '1937-03-15' , 'Nueva York');
 
+INSERT INTO libreria.autor(NombreAutor, ApellidoAutor, Biografia, AnnoNacimiento, AnnoFallecimiento, Ciudad) VALUES ('Brandon', 'Sanderson', 'Brandon Sanderson es un escritor estadounidense. Creó las Leyes de Magia de Sanderson y popularizó los Sistemas de magia dura y blanda. En 2008, comenzó un podcast llamado Writing Excuses con el escritor Dan Wells y el dibujante Howard Tayler, en el que tratan temas relacionados con la creación de la escritura de géneros y los webcomics.', '1975-12-19', NULL, 'Nebraska');
+
 
 CREATE TABLE libreria.libro (
     ISBN VARCHAR(13) NOT NULL,
@@ -51,19 +53,23 @@ CREATE TABLE libreria.libro (
     Encuadernacion ENUM("Tapa Dura", "Tapa Blanda", "Ebook") NOT NULL DEFAULT "Tapa Blanda",
     AñoEdicion DATE NOT NULL,
     Precio DECIMAL(4,2) NOT NULL,
-    Alto DECIMAL (2,2) NOT NULL,
-    Ancho DECIMAL (2,2) NOT NULL,
-    Grueso DECIMAL (2,2) NOT NULL,
-    Peso DECIMAL (3,2) NOT NULL,
+    Alto DECIMAL (10,2) NOT NULL,
+    Ancho DECIMAL (10,2) NOT NULL,
+    Grueso DECIMAL (10,2) NOT NULL,
+    Peso DECIMAL (10,2) NOT NULL,
     Descripcion TEXT NOT NULL,
     PRIMARY KEY (IDlibro),
     FOREIGN KEY (IDgenero) references libreria.genero(IDgenero),
     FOREIGN KEY (IDautor) references libreria.autor(IDautor)
 );
 
-INSERT INTO libreria.libro (ISBN, IDlibro, IDgenero, IDautor, Titulo, NumPag, Idioma, Encuadernacion, AñoEdicion, Precio, Alto, Ancho, Grueso, Peso, Descripcion) VALUES ('978-0-7356-6745-7', 1, 2, 1, 'Harry Potter y la piedra filosofal', 264, 'español', 'Tapa Dura', '2000-01-01', 15.20, 21.90, 13.50, 2.10, 394.00, 'Harry Potter y la piedra filosofal es una novela de ficción de terror escrita por el escritor británico J.K. Rowling. La novela está basada en la serie de cuentos de la misma nombre, publicada por primera vez en 1997. La novela está considerada una de las más vendidas de la literatura de terror y ha sido traducida a más de cien idiomas.');
+INSERT INTO libreria.libro (ISBN, IDlibro, IDgenero, IDautor, Titulo, NumPag, Idioma, Encuadernacion, AñoEdicion, Precio, Alto, Ancho, Grueso, Peso, Descripcion) VALUES ('9788478884452', 1, 2, 1, 'Harry Potter y la piedra filosofal', 264, 'español', 'Tapa Dura', '2000-01-01', 16.20, 21.90, 13.50, 2.10, 394.00, 'Harry Potter y la piedra filosofal es una novela de ficción de terror escrita por el escritor británico J.K. Rowling. La novela está basada en la serie de cuentos de la misma nombre, publicada por primera vez en 1997. La novela está considerada una de las más vendidas de la literatura de terror y ha sido traducida a más de cien idiomas.');
 
-INSERT INTO libreria.libro (ISBN, IDlibro, IDgenero, IDautor, Titulo, NumPag, Idioma, Encuadernacion, AñoEdicion, Precio, Alto, Ancho, Grueso, Peso, Descripcion) VALUES ('978-0-7356-6745-7', 2, 3, 2, 'El Señor de los Anillos: La Comunidad del Anillo', 464, 'español', 'Tapa Dura', '2001-01-01', 15.20, 21.90, 13.50, 2.10, 394.00, 'El Señor de los Anillos: La Comunidad del Anillo es una novela de ficción de terror escrita por el escritor británico J.R.R. Tolkien. La novela está basada en la serie de cuentos de la misma nombre, publicada por primera vez en 1997. La novela está considerada una de las más vendidas de la literatura de terror y ha sido traducida a más de cien idiomas.');
+INSERT INTO libreria.libro (ISBN, IDlibro, IDgenero, IDautor, Titulo, NumPag, Idioma, Encuadernacion, AñoEdicion, Precio, Alto, Ancho, Grueso, Peso, Descripcion) VALUES ('9788445009598', 2, 3, 2, 'El Señor de los Anillos: La Comunidad del Anillo', 700, 'español', 'Tapa Blanda', '2001-01-01', 15.20, 21.90, 13.50, 2.10, 394.00, 'El Señor de los Anillos: La Comunidad del Anillo es una novela de ficción de terror escrita por el escritor británico J.R.R. Tolkien. La novela está basada en la serie de cuentos de la misma nombre, publicada por primera vez en 1997. La novela está considerada una de las más vendidas de la literatura de terror y ha sido traducida a más de cien idiomas.');
+
+INSERT INTO libreria.libro (ISBN, IDlibro, IDgenero, IDautor, Titulo, NumPag, Idioma, Encuadernacion, AñoEdicion, Precio, Alto, Ancho, Grueso, Peso, Descripcion) VALUES ('9788466341295', 3, 2, 3, 'La torre Oscura I: La hierba del Diablo', 464, 'español', 'Ebook', '2002-01-01', 20.20, 21.90, 13.50, 2.10, 394.00, 'La torre Oscura I: La hierba del Diablo es una novela de ficción fantástica escrita por el escritor estadounidense Stephen King. La novela está basada en la serie de cuentos de la misma nombre, publicada por primera vez en 1997. La novela está considerada una de las más vendidas de la literatura de terror y ha sido traducida a más de cien idiomas.');
+
+INSERT INTO libreria.libro (ISBN, IDlibro, IDgenero, IDautor, Titulo, NumPag, Idioma, Encuadernacion, AñoEdicion, Precio, Alto, Ancho, Grueso, Peso, Descripcion) VALUES ('9788413143194', 4, 2, 4, 'Nacidos de la Bruma', 541, 'español', 'Tapa Dura', '2006-01-01', 29.90, 21.90, 13.50, 2.10, 394.00, 'Nacidos de la Bruma es una novela de ficción de fantástica escrita por el escritor estadounidense Brandon Sanderson. publicada por primera vez en 1997. La novela está considerada una de las más vendidas de la literatura de terror y ha sido traducida a más de cien idiomas.');
 
 CREATE TABLE libreria.editorial (
     IDeditorial INT NOT NULL AUTO_INCREMENT,
@@ -73,6 +79,14 @@ CREATE TABLE libreria.editorial (
     FOREIGN KEY (IDlibro) references libreria.libro(IDlibro)
 );
 
+INSERT INTO libreria.editorial (IDeditorial, IDlibro, NombreEditorial) VALUES (1, 1, 'Editorial El Mollete');
+
+INSERT INTO libreria.editorial (IDeditorial, IDlibro, NombreEditorial) VALUES (2, 2, 'Editorial El Rey');
+
+INSERT INTO libreria.editorial (IDeditorial, IDlibro, NombreEditorial) VALUES (3, 3, 'Editorial El Anillo');
+
+INSERT INTO libreria.editorial (IDeditorial, IDlibro, NombreEditorial) VALUES (4, 4, 'Editorial El Alomante');
+
 CREATE TABLE libreria.Proveedor (
     IDproveedor INT NOT NULL AUTO_INCREMENT,
     NombreProveedor VARCHAR(255) NOT NULL,
@@ -80,6 +94,10 @@ CREATE TABLE libreria.Proveedor (
     Direccion VARCHAR(255) NOT NULL,
     PRIMARY KEY (IDproveedor)
 );
+
+INSERT INTO libreria.Proveedor (IDproveedor, NombreProveedor, PersonaContacto, Direccion) VALUES (1, 'Libros Pepe', 'Juan Perez', 'Calle Falsa 123');
+
+INSERT INTO libreria.Proveedor (IDproveedor, NombreProveedor, PersonaContacto, Direccion) VALUES (2, 'Por si el de arriba no tiene libros', 'Juan Huertas', 'Av Falsa 090');
 
 CREATE TABLE libreria.usuario (
     IDusuario INT NOT NULL AUTO_INCREMENT,
@@ -91,30 +109,60 @@ CREATE TABLE libreria.usuario (
     PRIMARY KEY (IDusuario)
 );
 
+INSERT INTO libreria.usuario (IDusuario, Nombre, Apellido, Email, Contraseña, Edad) VALUES (1, 'Juan', 'Huertas', 'email@gmail.com', '123', 20);
+
+INSERT INTO libreria.usuario (IDusuario, Nombre, Apellido, Email, Contraseña, Edad) VALUES (2, 'Pedro', 'Perez', 'invencion@gmail.com', '567', 56);
+
+INSERT INTO libreria.usuario (IDusuario, Nombre, Apellido, Email, Contraseña, Edad) VALUES (3, 'Ruben', 'Perea', 'perea7r@gmail.com', '1234', 27);
+
 CREATE TABLE libreria.reseña (
     IDreseña INT NOT NULL AUTO_INCREMENT,
     IDlibro INT NOT NULL,
     IDusuario INT NOT NULL,
     Opinion VARCHAR(255) NOT NULL,
-    Puntuacion ENUM("1","2","3","4","5") NOT NULL,
+    Puntuacion TINYINT(1) NOT NULL,
+    CONSTRAINT puntuacion1a5 CHECK (Puntuacion >= 1 AND Puntuacion <= 5),
     PRIMARY KEY (IDreseña),
     FOREIGN KEY (IDlibro) references libreria.libro(IDlibro),
     FOREIGN KEY (IDusuario) references libreria.usuario(IDusuario)
 );
 
+INSERT INTO libreria.reseña (IDreseña, IDlibro, IDusuario, Opinion, Puntuacion) VALUES (1, 1, 1, 'Muy buen libro', 5);
+
+INSERT INTO libreria.reseña (IDreseña, IDlibro, IDusuario, Opinion, Puntuacion) VALUES (2, 2, 2, 'Opino porque me descuentan un euro', 5);
+
+INSERT INTO libreria.reseña (IDreseña, IDlibro, IDusuario, Opinion, Puntuacion) VALUES (3, 3, 3, 'Muy malo', 1);
+
+INSERT INTO libreria.reseña (IDreseña, IDlibro, IDusuario, Opinion, Puntuacion) VALUES (4, 4, 3, 'Esperaba más', 3);
+
+INSERT INTO libreria.reseña (IDreseña, IDlibro, IDusuario, Opinion, Puntuacion) VALUES (5, 4, 1, 'Brandon Sanderson es un ser de luz', 5);
+
+
 CREATE TABLE libreria.movil (
     IDmovil INT NOT NULL AUTO_INCREMENT,
     IDusuario INT NOT NULL,
-    Numero TINYINT(9) NOT NULL,
+    Numero INT NOT NULL,
     PRIMARY KEY (IDmovil),
     FOREIGN KEY (IDusuario) references libreria.usuario(IDusuario)
 );
+
+INSERT INTO libreria.movil (IDmovil, IDusuario, Numero) VALUES (1, 1, 666666666);
+INSERT INTO libreria.movil (IDmovil, IDusuario, Numero) VALUES (2, 2, 765432121);
+INSERT INTO libreria.movil (IDmovil, IDusuario, Numero) VALUES (3, 1, 665432167);
+INSERT INTO libreria.movil (IDmovil, IDusuario, Numero) VALUES (4, 1, 765432145);
+INSERT INTO libreria.movil (IDmovil, IDusuario, Numero) VALUES (5, 3, 665432105);
 
 CREATE TABLE libreria.stock (
     IDstock INT NOT NULL AUTO_INCREMENT,
     Cantidad INT NOT NULL,
     PRIMARY KEY (IDstock)
 );
+
+INSERT INTO libreria.stock (IDstock, Cantidad) VALUES (1,5);
+INSERT INTO libreria.stock (IDstock, Cantidad) VALUES (2, 14);
+INSERT INTO libreria.stock (IDstock, Cantidad) VALUES (3, 32);
+
+
 
 CREATE TABLE libreria.direcciones (
     IDdireccion INT NOT NULL AUTO_INCREMENT,
