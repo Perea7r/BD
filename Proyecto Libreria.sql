@@ -169,9 +169,14 @@ CREATE TABLE libreria.direcciones (
     Calle VARCHAR(255) NOT NULL,
     Numero INT NOT NULL,
     Ciudad VARCHAR(255) NOT NULL,
-    CP TINYINT(5) NOT NULL,
+    CP INT NOT NULL,
     PRIMARY KEY (IDdireccion)
 );
+
+INSERT INTO libreria.direcciones (IDdireccion, Calle, Numero, Ciudad, CP) VALUES (1, 'Calle Falsa', 123, 'Sevilla', 12345);
+INSERT INTO libreria.direcciones (IDdireccion, Calle, Numero, Ciudad, CP) VALUES (2, 'Calle Antequera', 25, 'Malaga', 12345);
+INSERT INTO libreria.direcciones (IDdireccion, Calle, Numero, Ciudad, CP) VALUES (3, 'Calle Paco', 11, 'Jaen', 12345);
+INSERT INTO libreria.direcciones (IDdireccion, Calle, Numero, Ciudad, CP) VALUES (4, 'Calle Sinsinati', 2, 'Cordoba', 12345);
 
 CREATE TABLE libreria.usuario_tiene_direcciones (
     IDusuario INT NOT NULL,
@@ -180,12 +185,24 @@ CREATE TABLE libreria.usuario_tiene_direcciones (
     FOREIGN KEY (IDdireccion) references libreria.direcciones(IDdireccion)
 );
 
+INSERT INTO libreria.usuario_tiene_direcciones (IDusuario, IDdireccion) VALUES (1, 1);
+INSERT INTO libreria.usuario_tiene_direcciones (IDusuario, IDdireccion) VALUES (1, 2);
+INSERT INTO libreria.usuario_tiene_direcciones (IDusuario, IDdireccion) VALUES (2, 3);
+INSERT INTO libreria.usuario_tiene_direcciones (IDusuario, IDdireccion) VALUES (1, 4);
+INSERT INTO libreria.usuario_tiene_direcciones (IDusuario, IDdireccion) VALUES (3, 2);
+INSERT INTO libreria.usuario_tiene_direcciones (IDusuario, IDdireccion) VALUES (3, 2);
+
 CREATE TABLE libreria.libro_suministra_proveedor (
     IDlibro INT NOT NULL,
     IDproveedor INT NOT NULL,
     FOREIGN KEY (IDlibro) references libreria.libro(IDlibro),
     FOREIGN KEY (IDproveedor) references libreria.proveedor(IDproveedor)
 );
+
+INSERT INTO libreria.libro_suministra_proveedor (IDlibro, IDproveedor) VALUES (1, 1);
+INSERT INTO libreria.libro_suministra_proveedor (IDlibro, IDproveedor) VALUES (2, 1);
+INSERT INTO libreria.libro_suministra_proveedor (IDlibro, IDproveedor) VALUES (3, 1);
+INSERT INTO libreria.libro_suministra_proveedor (IDlibro, IDproveedor) VALUES (4, 2);
 
 CREATE TABLE libreria.usuario_compra_libro (
     IDusuario INT NOT NULL,
@@ -194,9 +211,72 @@ CREATE TABLE libreria.usuario_compra_libro (
     FOREIGN KEY (IDlibro) references libreria.libro(IDlibro)
 );
 
-CREATE TABLE libreria.usuario_tiene_stock (
-    IDusuario INT NOT NULL,
+INSERT INTO libreria.usuario_compra_libro (IDusuario, IDlibro) VALUES (1, 4);
+INSERT INTO libreria.usuario_compra_libro (IDusuario, IDlibro) VALUES (1, 4);
+INSERT INTO libreria.usuario_compra_libro (IDusuario, IDlibro) VALUES (2, 4);
+
+CREATE TABLE libreria.libro_tiene_stock (
+    IDlibro INT NOT NULL,
     IDstock INT NOT NULL,
-    FOREIGN KEY (IDusuario) references libreria.usuario(IDusuario),
+    FOREIGN KEY (IDlibro) references libreria.libro(IDlibro),
     FOREIGN KEY (IDstock) references libreria.stock(IDstock)
 );
+
+INSERT INTO libreria.libro_tiene_stock (IDlibro, IDstock) VALUES (1, 2);
+INSERT INTO libreria.libro_tiene_stock (IDlibro, IDstock) VALUES (2, 1);
+INSERT INTO libreria.libro_tiene_stock (IDlibro, IDstock) VALUES (4, 3);
+INSERT INTO libreria.libro_tiene_stock (IDlibro, IDstock) VALUES (3, 1);
+
+/*////////////////////////////////////CONSULTAS//////////////////////////////////////////////////////////////*/
+
+/*cuantos libros ha comprado cada usuario MULTITABLA*/
+SELECT libreria.usuario.Nombre as Nombre, COUNT(*) as Libros
+FROM libreria.usuario_compra_libro 
+	INNER JOIN libreria.usuario 
+    ON libreria.usuario_compra_libro.IDusuario = libreria.usuario.IDusuario 
+    GROUP BY Nombre
+    ORDER BY Libros;
+    
+
+/*Que genero tiene cada libro MULTITABLA*/
+SELECT libreria.libro.Titulo as Titulo, libreria.genero.NombreGenero as Genero
+FROM libreria.libro 
+    INNER JOIN libreria.genero USING (IDgenero)
+    ORDER BY Genero;
+    
+/*Todas las calles de Sevilla UNICA*/
+
+SELECT libreria.direcciones.Calle as Calle, libreria.direcciones.Ciudad as Ciudad
+FROM libreria.direcciones
+WHERE libreria.direcciones.Ciudad LIKE "Sevilla";
+
+/*Todas las reseñas con el maximo de puntuacion UNICA*/
+
+SELECT libreria.reseña.Puntuacion as PuntuacionMaxima, libreria.reseña.Opinion as Opinion
+FROM libreria.reseña
+WHERE libreria.reseña.Puntuacion LIKE "5"
+ORDER BY Puntuacion;
+
+/*Nombre del libro que tiene el maximo de puntuacion SUBCONSULTA*/
+
+SELECT MAX(libreria.reseña.Puntuacion) AS MaxPuntuacion
+FROM libreria.reseña;
+
+SELECT libreria.libro.Titulo AS Titulo, libreria.reseña.Puntuacion
+FROM libreria.libro
+	INNER JOIN libreria.reseña USING (IDlibro)
+WHERE libreria.reseña.Puntuacion = (SELECT MAX(libreria.reseña.Puntuacion) AS MaxPuntuacion
+FROM libreria.reseña);
+
+/*Libros que estan escritos entre el 2000 y el 2002 y mostrar los que tengan menos de 500 paginas*/
+
+SELECT YEAR(libreria.libro.AñoEdicion) as AñoPublicacion
+FROM libreria.libro
+WHERE YEAR(libreria.libro.AñoEdicion) BETWEEN "2000" AND "2002";
+
+SELECT libreria.libro.Titulo as Titulo, libreria.libro.AñoEdicion as Año
+FROM libreria.libro
+WHERE  libreria.libro.NumPag < 500 AND libreria.libro.AñoEdicion IN (SELECT YEAR(libreria.libro.AñoEdicion) as AñoPublicacion
+FROM libreria.libro
+WHERE YEAR(libreria.libro.AñoEdicion) BETWEEN "2000" AND "2002")
+
